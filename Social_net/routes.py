@@ -1,7 +1,8 @@
 from Social_net import app
 
 from Social_net.filter import clean_date # We use it in the jinja.html file
-from flask import render_template
+from Social_net.data import users
+from flask import render_template, request, redirect
 
 from datetime import datetime
 
@@ -60,3 +61,31 @@ def jinja():
     return render_template('public/jinja.html', name=name, age=age, teams=teams, colors=colors, 
     countries=countries, great=great, repeat=repeat, GitRemote=GitRemote, my_remote=my_remote, date=date,
     my_html = my_html, suspicious=suspicious)
+
+
+@app.route('/sign_up', methods=['GET', 'POST'])
+def sign_up():
+    if request.method == 'POST':
+        req = request.form
+        username = req['username']
+        email = req.get('email')
+        password = request.form['password']
+
+        print(username, email, password)
+
+        return redirect(request.url)
+    return render_template('public/sign_up.html')
+
+
+@app.route('/profile/<username>')
+def profile(username):
+    user = None
+    if username in users:
+        user = users[username]
+
+    return render_template('public/profile.html', username=username, user=user)
+
+
+@app.route('/multiple/<foo>/<bar>/<baz>')
+def multiple(foo, bar, baz):
+    return f'foo is {foo}, bar is {bar}, and baz is {baz}'

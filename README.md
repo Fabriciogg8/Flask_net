@@ -29,4 +29,24 @@ Then we create the html, to display this view. And inside the html we start to p
 
 We can create our own customized filters to work with jinja, for this we create the **filters.py** file, the we called from the routes file and we can see the results in the jinja file.
 
-Next, we create the **macros** folder, inside of templates. Here we create a file called input_macro.html, so we can generate a macros that we can use in both, admin and user templates file. 
+Next, we create the **macros** folder, inside of templates. Here we create a file called input_macro.html, so we can generate a macros that we can use in both, admin and user templates file. To do so, we need to import this file from the html we need it. 
+
+## Forms
+
+The first thing is to create a new route inside our public routes, called sign-up. Next, we create the html file with the same name (sign_up). 
+
+Inside the html file we create a **form**. This form has an **action** attribute that takes a **URL** for sending that form to somewhere. The **method** that we use when we decide to send information to the server is **POST**, so we have to put it in the attribute of the form. For the form **inputs**, we need to create a **name** attribute for each input we're going to use, so that we can access the input's value submited.
+
+After we finish the form, we go to our route and add the **POST method**, so the route knows that is allowed to receive data. For us to be able to receive the data, we need to import **request** from flask. At the same time we import **redirect** so we can used later, allowing us to redirect the user to other page if we want it to.  
+
+We see in our route function that we can create an if statement for the POST method. Then we can save in a variable the data in the **request.form** (this is a dict, so we can access the values inside the request.form, in different forms as shown in the function). 
+
+
+## Dinamic URL 
+
+The first is to create a new route, that we call profile for now. The we create the html file. We came back to the routes and we add a **variable** to the **path** to our page, so we can access our own profile page, with wathever our name is. I add a file called data.py where we have the dummy data for using in the route. 
+
+We create a variable called name where we store the data from the user, if the user is in the data list. Then we pass this variable trough the render_template and use it to display the information in the profile template.
+We can use Jinja in order to differentiate if the user is in the data or not, and display different formats.
+
+The we create another example where we have **multiple variables** in the path of our route. 
