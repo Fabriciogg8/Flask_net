@@ -1,5 +1,6 @@
-# Flask_net
-Social net created with Flask
+# FLASK
+
+This is a repository working with Flask. 
 
 ## Views
 
@@ -50,3 +51,15 @@ We create a variable called name where we store the data from the user, if the u
 We can use Jinja in order to differentiate if the user is in the data or not, and display different formats.
 
 The we create another example where we have **multiple variables** in the path of our route. 
+
+## JSON
+
+We are going to send and receive **JSON**. In order to do so, we start for creating a new route called /json. We will be returning a simple string with a **HTTP status code**.We can try this out in POSTMAN.
+
+When we use POSTMAN we can send information in JSON format to our route. To get this information we use **request.get_json()**. This converts the JSON file to a Python dictionary. 
+
+Also we can send JSON from our route to the client, to do so we have to import from flask **jsonify** and **make_response**. To doing this we create a python dictonary inside the json route. 
+
+## AJAX 
+
+For this we will create the route named guestbook, and also the route guestbook/create_entry. 

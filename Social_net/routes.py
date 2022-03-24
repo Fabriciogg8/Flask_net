@@ -2,7 +2,7 @@ from Social_net import app
 
 from Social_net.filter import clean_date # We use it in the jinja.html file
 from Social_net.data import users
-from flask import render_template, request, redirect
+from flask import jsonify, make_response, render_template, request, redirect
 
 from datetime import datetime
 
@@ -89,3 +89,31 @@ def profile(username):
 @app.route('/multiple/<foo>/<bar>/<baz>')
 def multiple(foo, bar, baz):
     return f'foo is {foo}, bar is {bar}, and baz is {baz}'
+
+
+@app.route('/json', methods=['POST'])
+def json():
+    if request.is_json :
+        req = request.get_json()
+
+        response = {
+            "message" : "JSON received",
+            "name" : req.get("name")
+        }
+
+        res = make_response(jsonify(response), 200)
+
+        return res
+    else:
+        res = make_response(jsonify({'message':"No JSON received"}), 400)
+        return res
+
+
+@app.route('/guestbook')
+def guestbook():
+    return render_template('public/guestbook.html')
+
+
+@app.route('/guestbook/create_entry', methods=['POST'])
+def create_entry():
+    return 'Thanks!'

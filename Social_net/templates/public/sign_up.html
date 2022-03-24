@@ -13,20 +13,22 @@
             <form action="{{ url_for('sign_up') }}" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input calss="form-control" type="text" name="username">
+                    <input class="form-control" type="text" name="username">
                 </div>
                 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input calss="form-control" type="email" name="email">
+                    <input class="form-control" type="email" name="email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input calss="form-control" type="password" name="password">
+                    <input class="form-control" type="password" name="password">
                 </div>
 
                 <button class="btn btn-primary" type="submit"> Sign up </button>
+                
             </form>
         </div>
     </div>
