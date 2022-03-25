@@ -21,9 +21,47 @@
                     <textarea class="form-control" id="message" cols="30" rows="3" placeholder="Enter your message"></textarea>
                 </div>
 
-                <button class="btn btn-primary"></button>
+                <button class="btn btn-primary" onclick="submit_entry()"> Leave message </button>
             </div>
         </div>
     </div>
 </div>
 {% endblock main %}
+{% block script %}
+
+<script>
+
+    function submit_entry(){
+        let name = document.getElementById('name')
+        let message = document.getElementById('message')
+
+        let entry = {
+            name : name.value,
+            message : message.value,
+        };
+
+        fetch(`${window.origin}/guestbook/create_entry`, {
+            method : "POST",
+            credentials : "include",
+            body : JSON.stringify(entry),
+            cache : 'no-cache',
+            headers : new Headers({
+                "content-type":"application/json"
+            })
+        })
+        .then(function(response) {
+
+            if (response.status !== 200) {
+
+                console.log(`Response status was not 200: ${response.status}`);
+                return;
+            }
+            
+            response.json().then(function(data){
+                console.log(data)
+            })
+        })
+    };
+</script>
+
+{% endblock script %}

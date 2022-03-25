@@ -62,4 +62,14 @@ Also we can send JSON from our route to the client, to do so we have to import f
 
 ## AJAX 
 
-For this we will create the route named guestbook, and also the route guestbook/create_entry. 
+For this we will create the route named guestbook, and also the route guestbook/create_entry. Then we create the html guestbook.html in wich we create a form, with a button who triggers a function named **submit_entry()**.
+
+Then we create the **script tags** inside guestbook.html, where we create the function submit_entry with javascript. This function gets the values inside the inputs and in the first implementation only prints the values trough the console via console.log. 
+
+After that, we go to the route guestbook/create_entry, where we will be handle the request from javascript. And also, we will responde with JSON. In the html, we are back to our JS and we add the **fetch API**. We have to introduce some attributes to fetch, the first one is the url, so we ca use **window.origin**, that will grab in this case http://127.0.0.1:5000/, and then add the rest of the route where we want to use fetch. 
+
+***Corollary:*** To simplify the fetch url, you can simply use a single forward slash ( "/" ) to signify that your URL is relative to your origin. So in this case, no need for the window.origin stuff. Your request URL could be "/guestbook/create-entry". Only time fully qualified URLs matter is if you're making cross-site requests -- say, if your API server is sitting on a different domain than your web server.
+
+After we have te route where we are going to post some data, we have to create a new Javascript object, as a second attribute.
+
+We use .then to receive the response from the page and we do a console.log to see what the response of the page was, after we made the post request.

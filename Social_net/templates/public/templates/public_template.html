@@ -70,6 +70,8 @@
         crossorigin="anonymous"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block script %}
+    {% endblock script %}
 </body>
 
 </html>
