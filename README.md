@@ -73,3 +73,10 @@ After that, we go to the route guestbook/create_entry, where we will be handle t
 After we have te route where we are going to post some data, we have to create a new Javascript object, as a second attribute.
 
 We use .then to receive the response from the page and we do a console.log to see what the response of the page was, after we made the post request.
+
+## Query string
+
+We create a new route called query, and use the request object, to work with query strings. We will create a variable called args that will contain **request.args**. If we put this in a print, and then we go to our browser and we insert in the url the route and a query (http://127.0.0.1:5000/query?bar=bar&baz=baz), we get in the terminal an **InmutableMultiDict**. We can work with this dict, and print the keys and values with a for loop. 
+
+Another object we can use is **request.query_string**, we can print it out and we will see the query we introduce in the url, printed in the terminal. 
+
