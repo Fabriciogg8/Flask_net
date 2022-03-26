@@ -1,3 +1,4 @@
+from itsdangerous import Serializer
 from Social_net import app
 
 from Social_net.filter import clean_date # We use it in the jinja.html file
@@ -122,3 +123,38 @@ def create_entry():
 
     res = make_response(jsonify({'message': 'JSON received'}), 200)
     return res
+
+
+# Example route to search: http://127.0.0.1:5000/query?bar=bar&baz=baz
+@app.route('/query')
+def query():
+    # args = request.args
+    # We can do:
+    # for k, v in args.items():
+    #     print(f'{k} : {v}')
+    
+    #Another:
+    # if "foo" in args:
+    #     foo = args.get("foo")
+    
+    #     print(foo)
+    
+    # return 'Query recieved' , 200 
+    
+    #Another:
+    # if request.args:
+    #     args = request.args
+        
+    #     serialized = ' ; '.join(f"{k} : {v}" for k, v in args.items())
+        
+    #     return f"Query : {serialized}", 200
+    
+    # else:
+    #     return "No query received", 200
+    
+    #Another:
+    req = request.query_string
+    
+    print(req)
+    
+    return 'Query recieved' , 200 
