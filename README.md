@@ -80,3 +80,14 @@ We create a new route called query, and use the request object, to work with que
 
 Another object we can use is **request.query_string**, we can print it out and we will see the query we introduce in the url, printed in the terminal. 
 
+## Config
+
+Flask configutation, it's a way of creating some default keys and values which contain important information that we won't be able to use in our app, like Secret keys, API keys. In definitive any kind of information that is sensitive and you don't want to hard code into your app. 
+
+If we use the index route, and print **app.config** the terminal will show us the config dictionary. These values are the default values set by flask, and we can accedd them from any part of our application.    
+
+That was only to experiment. We will create a new file **config.py** in our root folder, where we will set all de configuration variables. There many ways to do it, but we will create a class for setting the variables. Also then, we will continuing by creating three more classes (Testing, Development, and ProductionConfig) that will be inheriting from the first.
+
+After we finish with our configuration file, we need to attach him to our app object. Then we can choose which of the classes we created will be used. We can do it, by using an if statement, so it will change the class depending of the environment we are working on. 
+
+***Corollary:*** To change the enviroment in CMDER console we can use: **set FLASK_ENV=development** , in other terminal we can use export. 
