@@ -9,6 +9,10 @@ from datetime import datetime
 
 @app.route('/')
 def index():
+    # This print where to probe the config file
+    # print(app.config)
+    # print(app.congi['ENV'])
+    
     return render_template('public/index.html')
 
 
@@ -158,3 +162,8 @@ def query():
     print(req)
     
     return 'Query recieved' , 200 
+
+
+@app.route('/upload_image', methods=['GET', 'POST'])
+def upload_img():
+    pass
