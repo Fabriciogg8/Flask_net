@@ -91,3 +91,11 @@ That was only to experiment. We will create a new file **config.py** in our root
 After we finish with our configuration file, we need to attach him to our app object. Then we can choose which of the classes we created will be used. We can do it, by using an if statement, so it will change the class depending of the environment we are working on. 
 
 ***Corollary:*** To change the enviroment in CMDER console we can use: **set FLASK_ENV=development** , in other terminal we can use export. 
+
+## Uploading files
+
+As always we create a new route, an we named upload_image. Also we create a new html, called upload_image.html. Inside of this html, we put a form where the besides action and method we insert **enctype**. The enctype attribute can be used only if method="post". Then inside the form we need an input with **type file**. 
+
+In the route we need to make the logic for the request of the file, id the used method is POST. Then we create a new folder inside of static/img called uploads, where we are going to store the images. Outside the route function we can set a new key called **['IMAGE_UPLOADS']** to the config dict. In this key, we are going to declare the **absolute path** to the folder where we want to save the images. One way to do this, is in our terminal moving ourselves to this directory in use the command **pwd**.  
+
+We have to ensure that the file has a filename, the file type is equal to the one we specify, the filename is secure and the size of file is within a reasonable limit. We need to import werkzeug that is the responsable to retunr a secure version of the filename. For the resize image problem, I used the pillow library. 

@@ -1,4 +1,3 @@
-from itsdangerous import Serializer
 from Social_net import app
 
 from Social_net.filter import clean_date # We use it in the jinja.html file
@@ -6,6 +5,10 @@ from Social_net.data import users
 from flask import jsonify, make_response, render_template, request, redirect
 
 from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
+from PIL import Image #I use the Corey Schafer video 7 to resize the image
+
 
 @app.route('/')
 def index():
@@ -164,6 +167,48 @@ def query():
     return 'Query recieved' , 200 
 
 
+app.config['IMAGE_UPLOADS'] = '/Fabricio/Programacion/Platzi/A-Desarrollo_backend_con_Python_y_Django/12-Flask/3_App/Social_net/static/img/uploads'
+app.config['ALLOWED_IMAGE_EXTENSIONS'] = ["PNG", "JPG", "JPEG", "GIF"]
+
+def allowed_image(filename):
+    ''' Function that takes the filname and return True if the extension 
+    is one of the allowed extensions in the app.config'''
+    if not "." in filename:
+        return False
+    
+    ext = filename.rsplit(".",1)[1]
+    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False    
+
+
 @app.route('/upload_image', methods=['GET', 'POST'])
 def upload_img():
-    pass
+    if request.method == "POST":
+        if request.files:
+                        
+            image = request.files['image']
+            
+            if image.filename == "":
+                print("Image must have a filename")
+                return redirect(request.url)
+            
+            if not allowed_image(image.filename):
+                print("That image extension is not allowed")
+                return redirect(request.url)
+            else:
+                filename = secure_filename(image.filename)
+                
+                output_size = (120,120) 
+                resize_image = Image.open(image)
+                resize_image.thumbnail(output_size)
+                
+                resize_image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+            
+            print('Image saved')
+            
+            return redirect(request.url)
+            
+    
+    return render_template("public/upload_image.html")
