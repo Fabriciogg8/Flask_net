@@ -123,3 +123,15 @@ So, to set a cookie on flask, we attach a cookie to the response. The **set_cook
 After that we change our cookie to receive more parameters. For example, we can add a **max_age** which means the expiration value of our cookie in seconds. We also can use **expires** and in this case we can do the same but in UTC. The **path** is used because maybe we only want to get the cookie back and forth in our cookie path. **Domain** is for the domain that can read the cookie, in this case we use none. **Secure** means that the cookie will be only being sent by HTTPS. **HTTP only** with these parameter setting to truth it means that we only going to access the cookie via HTTP, and not via javascript. **Samesite** it limits the scope where a cookie can be read. 
 
 We also can get cookies, with the request object.  
+
+## SESSION
+
+The flask session object is an **encoded cookie**, that get sent back and forth on every request, and we can treat it like a python dictonary. We can add values and we can pop values off of it, and it is store in the user browser and sent to the server on every request. It is globally available from any of our roots and our jinja templates.
+
+We create a new sign_in.html file. In our route we have to import session and url_for from flask. The first thing we need to work with session is create a secret key. So we set our **secret_key** like we do with other app config variables. Flask will use that string to encode the session.   
+
+Then we create a dictionary to demonstrate how to use the session. After that we continue creating the route sing_in, and the we modify the profile route. In the profile route we use the **session object** to show in the page the user data. 
+
+After that we generate the log_out route, so the user can clear the session cookie. 
+
+Remind not to store any sensitive in the session.
