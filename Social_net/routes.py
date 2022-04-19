@@ -2,7 +2,7 @@ from Social_net import app
 
 from Social_net.filter import clean_date # We use it in the jinja.html file
 from Social_net.data import users
-from flask import jsonify, make_response, render_template, request, redirect
+from flask import jsonify, make_response, render_template, request, redirect, url_for, session
 from flask import send_from_directory, abort # Downloading img
 
 from datetime import datetime
@@ -86,13 +86,13 @@ def sign_up():
     return render_template('public/sign_up.html')
 
 
-@app.route('/profile/<username>')
-def profile(username):
-    user = None
-    if username in users:
-        user = users[username]
+# @app.route('/profile/<username>')
+# def profile(username):
+#     user = None
+#     if username in users:
+#         user = users[username]
 
-    return render_template('public/profile.html', username=username, user=user)
+#     return render_template('public/profile.html', username=username, user=user)
 
 
 @app.route('/multiple/<foo>/<bar>/<baz>')
@@ -272,3 +272,67 @@ def cookies():
     print(cuadro)
     
     return res
+
+
+# SESSION 
+
+app.config['SECRET_KEY'] = 'sUpEr_sEvErE_SeCrEt_KeY'
+
+
+users = {
+    'fabricio':{
+        'username':'fabricio',
+        'email':'fgonzalezguasque@gmail.com',
+        'password': 'example123',
+        'bio':'Junior programmer, with high dreams'
+        },
+    'drago':{
+        'username':'drago',
+        'email':'drago@gmail.com',
+        'password':'drago_blonde',
+        'bio': 'A blonde little guy, who do not appears in Harry Potter'
+        },
+}
+
+
+@app.route('/sign_in', methods=['GET','POST'])
+def sign_in():
+    if request.method == 'POST':
+        req = request.form
+        username = req.get("username")
+        password = req.get("password")
+        
+        if not username in users:
+            print("username not found")
+            return redirect(request.url)
+        else:
+            user = users[username]
+            
+        if not password == user['password']:
+            print('Password incorrect')
+            return redirect(request.url)
+        else:
+            session['USERNAME'] = user['username']
+            print('User added to session')
+            return redirect(url_for('profile'))
+            
+    return render_template("public/sign_in.html")
+
+
+@app.route('/profile')
+def profile():
+    
+    if session['USERNAME'] is not None: 
+        username = session['USERNAME']
+        user = users[username]
+        return render_template('public/profile.html', username=username, user=user)
+    else:
+        print('Username not found in session')
+        return redirect(url_for('sign_in'))
+    
+
+@app.route('/sign_out')
+def logout():
+    
+    session.pop['USERNAME', None]
+    return redirect(url_for('sign_in'))
