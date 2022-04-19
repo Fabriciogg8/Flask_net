@@ -99,3 +99,27 @@ As always we create a new route, an we named upload_image. Also we create a new 
 In the route we need to make the logic for the request of the file, id the used method is POST. Then we create a new folder inside of static/img called uploads, where we are going to store the images. Outside the route function we can set a new key called **['IMAGE_UPLOADS']** to the config dict. In this key, we are going to declare the **absolute path** to the folder where we want to save the images. One way to do this, is in our terminal moving ourselves to this directory in use the command **pwd**.  
 
 We have to ensure that the file has a filename, the file type is equal to the one we specify, the filename is secure and the size of file is within a reasonable limit. We need to import werkzeug that is the responsable to retunr a secure version of the filename. For the resize image problem, I used the pillow library. 
+
+## Download and Sending files
+
+Inside static we create a folder named: client, that will contain the following folders as well: img, csv, pdf, reports. Inside of this folder we have the files corresponding to the folder name. Inside the reports we have more folders to organize by year, month and then we have a sales folder that contains a csv file. 
+
+We import from flask send_from_directory , abort, and the first route we'll create is to download an image, and if the image doesn't exist, we throw a 404 error. When we create the route we add a **variable** in the url, and we have the oportunity to specify the **converter**. This means that we can specify what type of variable we want the user passed in the url (string, int, float, path, uuid). Example @app.route('/get_image/**<string:**image_name>').
+
+Next we have to add our directories path to our path config. We added in our views but it supposed to be in our config.py file in the class config, adding the constant CLIENT IMAGES.
+
+In our route we create a try except, to attempt to get the image. We use ***send_from_directory*** that recibs a few arguments. When we use as_attachment with False we can see the file in the browser, and if we change it to True we can download the image. The we try the same with an csv file. And with a path, in this example we have to introduce the url: get_report/2020/abr/sales/report.csv
+
+We can use **send_file** instead of send_from_directory both are very similar. The difference is that in this case isn't that secure. 
+
+## COOKIES
+
+**Cookies** are little text files, strings or keys and values, that era stored in our browser. Preserving the state of our browser is one way to describe it. Cookies can be deleted, erased.
+
+When we use **make_response**, we can pass the same type of objects that we will send in our return statement. This leaves us with the question why would we use more code or memory to implement the same thing that we can pass directly to our return, and the answer is that we can modify our response variable and that is what we will do with cookies.
+
+So, to set a cookie on flask, we attach a cookie to the response. The **set_cookie** method takes a key an a value. If we navigate to the url and then go into inspect to check for cookies, we can see the cookie we inserted into the path.
+
+After that we change our cookie to receive more parameters. For example, we can add a **max_age** which means the expiration value of our cookie in seconds. We also can use **expires** and in this case we can do the same but in UTC. The **path** is used because maybe we only want to get the cookie back and forth in our cookie path. **Domain** is for the domain that can read the cookie, in this case we use none. **Secure** means that the cookie will be only being sent by HTTPS. **HTTP only** with these parameter setting to truth it means that we only going to access the cookie via HTTP, and not via javascript. **Samesite** it limits the scope where a cookie can be read. 
+
+We also can get cookies, with the request object.  
