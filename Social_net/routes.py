@@ -3,6 +3,7 @@ from Social_net import app
 from Social_net.filter import clean_date # We use it in the jinja.html file
 from Social_net.data import users
 from flask import jsonify, make_response, render_template, request, redirect
+from flask import send_from_directory, abort # Downloading img
 
 from datetime import datetime
 import os
@@ -212,3 +213,62 @@ def upload_img():
             
     
     return render_template("public/upload_image.html")
+
+
+# DOWNLOADING FILES
+
+app.config['CLIENT_IMAGES'] = 'D:/Fabricio/Programacion/Platzi/A-Desarrollo_backend_PYTHON_y_Django/12-Flask/3_App/Social_net/static/client/img'
+app.config['CLIENT_CSV'] = 'D:/Fabricio/Programacion/Platzi/A-Desarrollo_backend_PYTHON_y_Django/12-Flask/3_App/Social_net/static/client/csv'
+app.config['CLIENT_REPORTS'] = 'D:/Fabricio/Programacion/Platzi/A-Desarrollo_backend_PYTHON_y_Django/12-Flask/3_App/Social_net/static/client/reports'
+
+
+@app.route('/get_image/<image_name>')
+def get_image(image_name):
+    try:
+        return send_from_directory(app.config['CLIENT_IMAGES'], path=image_name, as_attachment=True) 
+    except FileNotFoundError:
+        abort(404)
+        
+
+@app.route('/get_csv/<filename>')
+def get_csv(filename):
+    try:
+        return send_from_directory(app.config['CLIENT_CSV'], path=filename, as_attachment=False) 
+    except FileNotFoundError:
+        abort(404)
+        
+
+@app.route('/get_report/<path:path>')
+def get_report(path):
+    try:
+        return send_from_directory(app.config['CLIENT_REPORTS'], path=path, as_attachment=True) 
+    except FileNotFoundError:
+        abort(404)
+        
+
+# COOKIES
+
+@app.route('/cookies')
+def cookies():
+    res = make_response('Cookies', 200)
+    res.set_cookie(
+        'flavor', 
+        value='chocolate_chip',
+        max_age=10,
+        expires=None,
+        path=request.path,
+        domain=None,
+        secure=False,
+        httponly=False,
+        samesite=None
+        )
+    res.set_cookie('cuadro', 'Nacional')
+    res.set_cookie('país', 'Uruguay')
+    
+    cookies = request.cookies
+    cuadro = cookies.get('cuadro')
+    # cuadro = cookies['cuadro'] we don't use it in this form because the cookie can be deleted 
+    # and in that case we will get an error
+    print(cuadro)
+    
+    return res
