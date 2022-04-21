@@ -135,3 +135,32 @@ Then we create a dictionary to demonstrate how to use the session. After that we
 After that we generate the log_out route, so the user can clear the session cookie. 
 
 Remind not to store any sensitive in the session.
+
+## MESSAGE FLASHING AND NOTIFICATIONS
+
+This is the way of providing feedback to users of a web application, from notifications and error messages to warnings and progress alerts. 
+
+Working with flash requires 2 main components:
+* Calling the flash function and passing it a message from a route in our application
+* Checking for flashed messages in a template
+
+So, we will create a basic account creation form, and do a little validation, and set some fields, so for example the user provides a password with less of the minimum characters required, we will throw a message.
+
+We will reuse the signup function. And then we will check if the password has a minimum character length of 10. Importamos **flash** desde flask. We see that flash takes two arguments, a message and an category. 
+
+After the implementation in our route, we have to tell the HTML that we want to show the message, so we change our public_template.html. We will use bootstrap **alerts** to help us with this. We have to use jinja and a with statement to properly show the message if exists one to show. If we add the **categories** in our flash messages we have to change in the HTML the way we write our code.
+
+Then we can try a different way, if we want the messages being displayed in different areas of our page. We will create 3 different categories of flash, one in each one of the columns. 
+
+## ERROR HANDLING
+
+Catching and handling errors ensures our users aren't confused when something goes wrong, also giving them a way to get home or back to the content.
+
+We will create a new file, called error_handler.py, and then we need to put this file into  _init_.py, as we call the routes; although we can place our code inside routes.py in this case we are going to separate it. 
+
+When we create an error handler function we use **@app.errorhandler()**, and inside the brackets we add the error we are handling. Also in the function we pass an error. In this case we will render a template that we created for this specifically.
+
+One nice thing about this is that we can use the error for example when we have a 500 error that means we have a server error, and we use it to send us an email, or a notification in other part of our app. To see the 500 error in action, we use abort(we import this from flask) on our index function and pass the 500.
+
+
+

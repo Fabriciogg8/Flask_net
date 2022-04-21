@@ -15,3 +15,4 @@ else:
 
 from Social_net import routes
 from Social_net import admin_routes
+from Social_net import error_handlers
