@@ -2,8 +2,9 @@ from Social_net import app
 
 from Social_net.filter import clean_date # We use it in the jinja.html file
 from Social_net.data import users
-from flask import jsonify, make_response, render_template, request, redirect, url_for, session
+from flask import jsonify, make_response, render_template, request, redirect, url_for, session, abort
 from flask import send_from_directory, abort # Downloading img
+from flask import flash # For messages
 
 from datetime import datetime
 import os
@@ -16,6 +17,9 @@ def index():
     # This print where to probe the config file
     # print(app.config)
     # print(app.congi['ENV'])
+    
+    # To see the 500 error
+    # abort(500)
     
     return render_template('public/index.html')
 
@@ -72,18 +76,18 @@ def jinja():
     my_html = my_html, suspicious=suspicious)
 
 
-@app.route('/sign_up', methods=['GET', 'POST'])
-def sign_up():
-    if request.method == 'POST':
-        req = request.form
-        username = req['username']
-        email = req.get('email')
-        password = request.form['password']
+# @app.route('/sign_up', methods=['GET', 'POST'])
+# def sign_up():
+#     if request.method == 'POST':
+#         req = request.form
+#         username = req['username']
+#         email = req.get('email')
+#         password = request.form['password']
 
-        print(username, email, password)
+#         print(username, email, password)
 
-        return redirect(request.url)
-    return render_template('public/sign_up.html')
+#         return redirect(request.url)
+#     return render_template('public/sign_up.html')
 
 
 # @app.route('/profile/<username>')
@@ -336,3 +340,22 @@ def logout():
     
     session.pop['USERNAME', None]
     return redirect(url_for('sign_in'))
+
+# MESSAGE FLASHING
+
+@app.route('/sign_up', methods=['GET', 'POST'])
+def sign_up():
+    if request.method == 'POST':
+        # Three ways of doing the same
+        req = request.form
+        username = req['username']
+        email = req.get('email')
+        password = request.form['password']
+
+        if not len(password) >= 10:
+            flash('You have to enter at least 10 character password', 'danger') 
+            return redirect(request.url)
+        
+        flash('Account created successfully', 'success')
+        return redirect(request.url)
+    return render_template('public/sign_up.html')
